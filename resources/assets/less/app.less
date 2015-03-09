@@ -1,0 +1,25 @@
+@import "bootstrap/bootstrap";
+
+@btn-font-weight: 300;
+@font-family-sans-serif: "Roboto", Helvetica, Arial, sans-serif;
+
+body, label, .checkbox label {
+	font-weight: 300;
+}
+
+article.expired, article.blocked {
+	transition: opacity .15s ease-in-out;
+
+	&:not(:hover) {
+		color: @gray-light;
+		opacity: 0.4;
+
+		h4 a {
+			color: @gray-light;
+		}		
+	}
+
+	&:hover {
+		opacity: 1;
+	}
+}
