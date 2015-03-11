@@ -1,11 +1,12 @@
 <?php namespace App\Http\Controllers;
 
+use App\Entities\Tag;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\OfferRequest;
-use App\Offer;
+use App\Entities\Offer;
 
 class AdminOffersController extends Controller {
 
@@ -26,18 +27,39 @@ class AdminOffersController extends Controller {
 	}
 
 	public function edit($offer) {
-		return view('admin.offers.edit', compact("offer"));
+        $tags = Tag::all();
+        $tagsList = Tag::lists('name', 'id');
+
+		return view('admin.offers.edit', compact("offer", "tags", "tagsList"));
 	}
 
 	public function update(OfferRequest $request, $offer) {
-		$offer->update($request->all());
+        $this->updateOffer($offer, $request->all());
 
 		return redirect(action('AdminOffersController@index'));
 	}
+
+    protected function updateOffer($offer, $requestData) {
+        $offer->update($requestData);
+        $offer->offerTags()->delete();
+
+        $this->createOfferData($requestData, $offer);
+    }
 
 	public function destroy($offer) {
 		$offer->delete();
 
 		return redirect(action('AdminOffersController@index'));
 	}
+
+    protected function createOfferData($requestData, $offer)
+    {
+        foreach ($requestData['tags'] as $tagId) {
+            $offerTag = $offer->offerTags()->create(['tag_id' => $tagId]);
+
+            array_map(function ($value) use ($offerTag) {
+                $offerTag->offerTagValues()->create(['value' => $value]);
+            }, (array)$requestData['values'][$tagId]);
+        }
+    }
 }

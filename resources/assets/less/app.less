@@ -4,22 +4,45 @@
 @font-family-sans-serif: "Roboto", Helvetica, Arial, sans-serif;
 
 body, label, .checkbox label {
-	font-weight: 300;
+  font-weight: 300;
 }
 
 article.expired, article.blocked {
-	transition: opacity .15s ease-in-out;
+  transition: opacity .15s ease-in-out;
 
-	&:not(:hover) {
-		color: @gray-light;
-		opacity: 0.4;
+  &:not(:hover) {
+    color: @gray-light;
+    opacity: 0.4;
 
-		h4 a {
-			color: @gray-light;
-		}		
-	}
+    h4 a {
+      color: @gray-light;
+    }
+  }
 
-	&:hover {
-		opacity: 1;
-	}
+  &:hover {
+    opacity: 1;
+  }
+}
+
+*[data-row] {
+  margin-top: 15px;
+}
+
+.navbar-form {
+  .search-input {
+    width: auto !important;
+    display: inline-block;
+    border-width: 1px 0px 1px 1px
+  }
+
+  .select2-container {
+    width: auto !important;
+    min-width: 120px
+  }
+
+  .select2-selection--multiple {
+    border-radius: 0px !important;
+    border: 1px solid #ccc !important;
+    min-height: 34px !important;
+  }
 }

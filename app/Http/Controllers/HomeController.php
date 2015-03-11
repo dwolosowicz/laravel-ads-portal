@@ -1,6 +1,6 @@
 <?php namespace App\Http\Controllers;
 
-use App\Offer;
+use App\Entities\Offer;
 use Input;
 
 class HomeController extends Controller {
@@ -12,7 +12,11 @@ class HomeController extends Controller {
     }
 
     public function search() {
-    	$offers = Offer::recent()->notExpired()->titled(Input::get('title'))->get();
+        $offers = Offer::recent()
+            ->notExpired()
+            ->titled(Input::get('title'))
+            ->tagged(Input::get('tags'))
+            ->get();
 
 		return view("home", compact("offers"));
     }

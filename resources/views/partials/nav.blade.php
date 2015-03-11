@@ -15,17 +15,7 @@
 				<li><a href="{{ url('/') }}">Home</a></li>
 			</ul>
 
-			<form class="navbar-form navbar-left" role="search" action="{{ action("HomeController@search") }}">
-				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Search" name="title">
-
-					<span class="input-group-btn">
-						<button type="submit" class="btn btn-default">
-							Search
-						</button>
-					</span>
-				</div>
-			</form>
+            @include("partials.nav_search")
 
 			<ul class="nav navbar-nav navbar-right">
 				@if (Auth::guest())

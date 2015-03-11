@@ -31,6 +31,12 @@
 
 				{{ $offer->user->name }}
 			</p>
+
+            <p>
+                @foreach($offer->offerTags as $offerTag)
+                    <strong>{{ $offerTag->name }}</strong> {{ implode(', ', $offerTag->values) }}
+                @endforeach
+            </p>
 		</header>
 
 		<section class="content">

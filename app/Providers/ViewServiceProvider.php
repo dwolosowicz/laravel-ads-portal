@@ -1,5 +1,7 @@
 <?php namespace App\Providers;
 
+use App\Entities\Tag;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 
 use View;
@@ -15,7 +17,25 @@ class ViewServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		View::creator("app", function($view) {
+        View::composer("partials.nav_search", function($view) {
+            $tags = DB::table('tags')
+                ->join('offer_tags', 'tag_id', '=', 'tags.id')
+                ->join('offer_tag_values', 'offer_tag_values.offer_tag_id', '=', 'offer_tags.id')
+                ->select('tags.name', 'offer_tag_values.value')
+                ->get();
+
+            $tagStrings = array_map(function ($value) {
+                return sprintf("%s: %s", $value->name, $value->value);
+            }, $tags);
+
+            $view->with([
+                'searchTags' => array_mirror($tagStrings),
+                'searchSelectedTitle' => \Input::get('title', ''),
+                'searchSelectedTags' => \Input::get('tags', []),
+            ]);
+        });
+
+		View::creator("app", function() {
 			JavaScript::put([
 				'dateFormat' => Config::get('patterns.date.js')
 			]);

@@ -1,6 +1,6 @@
 <?php namespace App\Providers;
 
-use App\Offer;
+use App\Entities\Offer;
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -25,11 +25,11 @@ class RouteServiceProvider extends ServiceProvider {
 	{
 		parent::boot($router);
 
-		$router->model('users', 'App\User');
-
+		$router->model('users', 'App\Entities\User');
+		$router->model('tags', 'App\Entities\Tag');
 
 		$router->bind('offers', function($slug) {
-            return Offer::whereSlug($slug)->firstOrFail();
+            return Offer::whereSlug($slug)->with('offerTags', 'offerTags.tag')->firstOrFail();
         });
 
 		$router->bind('active_offers', function($slug) {

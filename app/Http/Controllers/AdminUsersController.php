@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
-use App\User;
+use App\Entities\User;
 
 class AdminUsersController extends Controller {
 
